@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MyImageView">
+        <attr name="my_icon_color" format="color" />
+        <attr name="my_icon" format="integer" />
+        <attr name="my_radius" format="float" />
+    </declare-styleable>
+
+</resources>

@@ -4,6 +4,15 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+repositories {
+    jcenter()
+    mavenCentral()
+
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "27"
@@ -31,4 +40,9 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-location:11.8.0'
     implementation 'com.google.android.gms:play-services-maps:11.8.0'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+
+//    compile(name: 'ethereumj', ext: 'jar')
+    compile(name: 'gwslib-release', ext: 'aar')
 }
