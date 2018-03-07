@@ -30,7 +30,9 @@ class CoinMarketCapFragment : MoldContentFragment() {
         super.onActivityCreated(savedInstanceState)
 
         val viewPage = vsRoot?.id<ViewPager>(R.id.vp_coin_list)
-        viewPage?.adapter = MainAdapter(activity, DEFAULT_COINS)
-    }
+        viewPage?.setOffscreenPageLimit(3)
+        viewPage?.setClipChildren(false)
 
+        viewPage?.adapter = MainAdapter(activity, DEFAULT_COINS, jobMate)
+    }
 }

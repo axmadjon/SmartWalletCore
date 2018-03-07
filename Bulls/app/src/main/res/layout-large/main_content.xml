@@ -7,11 +7,11 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_coin_list"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:layout_centerInParent="true"
         android:clipToPadding="false"
-        android:paddingLeft="100dp"
-        android:paddingRight="100dp" />
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp" />
 
     <View
         android:layout_width="match_parent"

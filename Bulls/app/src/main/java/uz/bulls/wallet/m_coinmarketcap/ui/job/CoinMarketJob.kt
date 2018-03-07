@@ -14,36 +14,33 @@ import uz.greenwhite.lib.collection.MyArray
 import uz.greenwhite.lib.job.ShortJob
 
 
-val C_TICKER = "ticker"
+private val C_TICKER = "ticker"
 
-class CoinMarketJob() : ShortJob<MyArray<CoinMarket>> {
+class CoinMarketJob(val coinId: String) : ShortJob<CoinMarket> {
 
     @Throws(Exception::class)
-    override fun execute(): MyArray<CoinMarket> {
+    override fun execute(): CoinMarket? {
         val client = OkHttpClient()
+        val key = "${C_TICKER}=${coinId}"
 
-        var json = getCoinMarketCache(C_TICKER, "")
-        val time = getCacheTime(C_TICKER)
+        var json = getCoinMarketCache(key, "")
+        val time = getCacheTime(key)
 
         val timeLimit = 5 * 60 * 1000
 
-//        if (TextUtils.isEmpty(json) || 0 == time ||
-//                (System.currentTimeMillis().toInt() - time >= timeLimit)) {
-//            val finalArray = JSONArray()
-//
-//            for (coinId in coinIds) {
-//                val response = client.newCall(Request.Builder()
-//                        .url("https://api.coinmarketcap.com/v1/${C_TICKER}/${coinId}?limit=100")
-//                        .build()).execute()
-//
-//                val arr = JSONArray(response.body()?.string()!!)
-//                finalArray.put(arr.getJSONObject(0))
-//            }
-//            saveCoinMarketCache(C_TICKER, json)
-//            saveCacheTime(C_TICKER, System.currentTimeMillis().toInt())
-//            return toCMCValue(finalArray)
-//        }
-        return MyArray.emptyArray()
+        if (TextUtils.isEmpty(json) || 0 == time ||
+                (System.currentTimeMillis().toInt() - time >= timeLimit)) {
+            val response = client.newCall(Request.Builder()
+                    .url("https://api.coinmarketcap.com/v1/ticker/${coinId}")
+                    .build()).execute()
+
+            json = response.body()?.string()!!
+
+            saveCoinMarketCache(key, json)
+            saveCacheTime(key, System.currentTimeMillis().toInt())
+            return toCMCValue(JSONArray(json))[0]
+        }
+        return toCMCValue(JSONArray(json))[0]
     }
 
     /*

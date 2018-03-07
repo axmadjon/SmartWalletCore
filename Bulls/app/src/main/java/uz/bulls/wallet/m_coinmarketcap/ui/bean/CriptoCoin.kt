@@ -14,7 +14,7 @@ val DEFAULT_COINS = MyArray.from(
         CriptoCoin(C_ETC),
         CriptoCoin(C_XRP))
 
-class CriptoCoin(val coinId: String) {
+class CriptoCoin(val coinId: String, var coinMarket: CoinMarket? = null) {
 
     fun getCoinIconResId(): Int {
         when (coinId) {
