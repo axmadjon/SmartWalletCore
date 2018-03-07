@@ -23,7 +23,7 @@ class CriptoCoin(val coinId: String, var coinMarket: CoinMarket? = null) {
             C_ETC -> return R.mipmap.ic_ethereum_classic
             C_XRP -> return R.mipmap.ic_ripple
             else -> {
-                return R.mipmap.ic_launcher
+                return R.drawable.ic_launcher
             }
         }
     }
