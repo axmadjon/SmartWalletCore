@@ -4,6 +4,7 @@ import android.support.annotation.DrawableRes;
 
 import uz.bulls.wallet.R;
 import uz.greenwhite.lib.collection.MyArray;
+import uz.greenwhite.lib.collection.MyMapper;
 import uz.greenwhite.lib.error.AppError;
 import uz.greenwhite.lib.uzum.UzumAdapter;
 import uz.greenwhite.lib.uzum.UzumReader;
@@ -21,6 +22,13 @@ public class CriptoCoin {
     public CriptoCoin(String id) {
         this.id = id;
     }
+
+    public static final MyMapper<CriptoCoin, String> KEY_ADAPTER = new MyMapper<CriptoCoin, String>() {
+        @Override
+        public String apply(CriptoCoin criptoCoin) {
+            return criptoCoin.id;
+        }
+    };
 
     public static final MyArray<CriptoCoin> ALL_SUPPORT_COINS = MyArray.from(
             new CriptoCoin(C_ETC),
