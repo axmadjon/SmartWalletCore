@@ -1,15 +1,15 @@
-package uz.bulls.wallet.m_coinmarketcap.ui.job
+package uz.bulls.wallet.m_main.ui.job
 
 import android.text.TextUtils
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import uz.bulls.wallet.common.map
-import uz.bulls.wallet.m_coinmarketcap.getCacheTime
-import uz.bulls.wallet.m_coinmarketcap.getCoinMarketCache
-import uz.bulls.wallet.m_coinmarketcap.saveCacheTime
-import uz.bulls.wallet.m_coinmarketcap.saveCoinMarketCache
-import uz.bulls.wallet.m_coinmarketcap.ui.bean.CoinMarket
+import uz.bulls.wallet.m_main.getCacheTime
+import uz.bulls.wallet.m_main.getCoinMarketCache
+import uz.bulls.wallet.m_main.saveCacheTime
+import uz.bulls.wallet.m_main.saveCoinMarketCache
+import uz.bulls.wallet.m_main.ui.bean.CoinMarket
 import uz.greenwhite.lib.collection.MyArray
 import uz.greenwhite.lib.job.ShortJob
 

@@ -8,122 +8,168 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
+        android:background="@color/white"
         app:cardCornerRadius="10dp">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/coin_bgr_1" />
-
         <FrameLayout
+            android:id="@+id/fl_cripto_coin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            android:visibility="gone">
 
-
-            <LinearLayout
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/coin_bgr_1" />
 
-                <ImageView
-                    android:id="@+id/coin_logo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
                     android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/coin_logo"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_coin_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textColor="@color/coin_title"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/tv_symbol"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textColor="@color/coin_title"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_coin_total"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/tv_coin_to_usd"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal">
+
+
+                    <uz.bulls.wallet.common.widget.MyImageView
+                        android:id="@+id/miv_barcode"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        app:my_icon="@drawable/ic_barcode"
+                        app:my_icon_color="@color/white" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:gravity="right"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tv_coin_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:textColor="@color/coin_title"
-                            android:textSize="18dp" />
-
-                        <TextView
-                            android:id="@+id/tv_symbol"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:textColor="@color/coin_title"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_coin_total"
+                            android:id="@+id/tv_coin_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
-                            android:textSize="18dp" />
+                            android:textSize="14dp" />
 
                         <TextView
-                            android:id="@+id/tv_coin_to_usd"
+                            android:id="@+id/tv_coin_percent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
                             android:textColor="@color/white"
                             android:textSize="10dp" />
+
                     </LinearLayout>
-
-
                 </LinearLayout>
-            </LinearLayout>
+
+            </FrameLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_add_cripto_coin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
 
-
-                <uz.bulls.wallet.common.widget.MyImageView
-                    android:id="@+id/miv_barcode"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:layout_gravity="center"
-                    android:padding="5dp"
-                    app:my_icon="@drawable/ic_barcode"
-                    app:my_icon_color="@color/white" />
+                    android:src="@drawable/ic_add_app_color_large" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:orientation="horizontal">
+                    android:text="No Cripto coin?"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16dp" />
 
-                    <TextView
-                        android:id="@+id/tv_coin_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:id="@+id/tv_coin_percent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="10dp" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You can add new cripto coins"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16dp" />
             </LinearLayout>
 
         </FrameLayout>

@@ -1,12 +1,12 @@
-package uz.bulls.wallet.m_coinmarketcap.ui
+package uz.bulls.wallet.m_main.ui
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import uz.bulls.wallet.R
-import uz.bulls.wallet.m_coinmarketcap.ui.bean.CriptoCoin
-import uz.bulls.wallet.m_coinmarketcap.ui.job.CoinMarketJob
+import uz.bulls.wallet.m_main.ui.bean.CriptoCoin
+import uz.bulls.wallet.m_main.ui.job.CoinMarketJob
 import uz.greenwhite.lib.collection.MyArray
 import uz.greenwhite.lib.job.JobMate
 import uz.greenwhite.lib.util.NumberUtil
@@ -29,16 +29,28 @@ class MainAdapter(val ctx: Context, val items: MyArray<CriptoCoin>, val jobMate:
         val vs = ViewSetup(ctx, R.layout.main_coin_row)
         val item = getItem(position)
 
-        jobMate.execute(CoinMarketJob(item.coinId))
-                .done({
-                    if (item.coinId == it.id) {
-                        item.coinMarket = it; reloadView(vs, item)
-                    }
-                })
+        if (!item.id.isEmpty()) {
+            vs.id<View>(R.id.fl_cripto_coin).visibility = View.VISIBLE
+            vs.id<View>(R.id.fl_add_cripto_coin).visibility = View.GONE
 
-        reloadView(vs, item)
+            jobMate.execute(CoinMarketJob(item.id))
+                    .done({
+                        if (item.id == it.id) {
+                            item.coinMarket = it; reloadView(vs, item)
+                        }
+                    })
 
-        vs.imageView(R.id.coin_logo).setImageResource(item.getCoinIconResId())
+            reloadView(vs, item)
+
+            vs.imageView(R.id.coin_logo).setImageResource(item.iconResId)
+
+        } else {
+            vs.id<View>(R.id.fl_cripto_coin).visibility = View.GONE
+            vs.id<View>(R.id.fl_add_cripto_coin).visibility = View.VISIBLE
+
+
+        }
+
         container?.addView(vs.view)
         return vs.view
     }

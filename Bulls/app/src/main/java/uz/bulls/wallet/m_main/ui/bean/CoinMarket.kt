@@ -1,4 +1,8 @@
-package uz.bulls.wallet.m_coinmarketcap.ui.bean
+package uz.bulls.wallet.m_main.ui.bean
+
+import uz.greenwhite.lib.uzum.UzumAdapter
+import uz.greenwhite.lib.uzum.UzumReader
+import uz.greenwhite.lib.uzum.UzumWriter
 
 
 class CoinMarket(val id: String,
@@ -15,5 +19,4 @@ class CoinMarket(val id: String,
                  val percentChange24h: String,
                  val percentChange7d: String,
                  val lastUpdated: String)
-
 

@@ -1,4 +1,4 @@
-package uz.bulls.wallet.m_coinmarketcap.ui
+package uz.bulls.wallet.m_main.ui
 
 import android.app.Activity
 import android.os.Bundle
@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import uz.bulls.wallet.R
-import uz.bulls.wallet.m_coinmarketcap.ui.bean.DEFAULT_COINS
+import uz.bulls.wallet.m_main.getMyCoins
+import uz.bulls.wallet.m_main.ui.bean.CriptoCoin
+import uz.bulls.wallet.m_setting.ui.openSettingFragment
 import uz.greenwhite.lib.mold.Mold
 import uz.greenwhite.lib.mold.MoldContentFragment
 import uz.greenwhite.lib.view_setup.ViewSetup
@@ -29,10 +31,23 @@ class CoinMarketCapFragment : MoldContentFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        addMenu(R.drawable.ic_settings_black_24dp, "Setting", { openSettingFragment(activity) })
+
+        val button = Mold.makeFloatAction(activity, R.drawable.ic_add_black_24dp)
+        button.setOnClickListener { addTransactionOrCreateCoin() }
+
         val viewPage = vsRoot?.id<ViewPager>(R.id.vp_coin_list)
         viewPage?.setOffscreenPageLimit(3)
         viewPage?.setClipChildren(false)
 
-        viewPage?.adapter = MainAdapter(activity, DEFAULT_COINS, jobMate)
+        val myCoins = getMyCoins().append(CriptoCoin.EMPTY)
+        viewPage?.adapter = MainAdapter(activity, myCoins, jobMate)
+    }
+
+    private fun addTransactionOrCreateCoin() {
+        val viewPage = vsRoot?.id<ViewPager>(R.id.vp_coin_list)
+        val currentItem = viewPage?.currentItem
+
+
     }
 }
