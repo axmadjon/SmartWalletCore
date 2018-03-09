@@ -12,7 +12,7 @@ private val K_CASHE = "coin_market_cap:cache"
 private val K_CACHE_TIME = "coin_market_cap:cache:time"
 private val K_MY_COIN = "coin_market_cap:my_coin"
 
-fun getPref() = Pref(BullsApp.getInstance(), "bulls_pref")
+fun getPref() = Pref(BullsApp.getInstance(), "bulls:main")
 
 fun getCoinMarketCache(key: String, default: String): String {
     var result = getPref().load("${key}:${K_CASHE}")

@@ -15,6 +15,8 @@
             android:id="@+id/fl_cripto_coin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:visibility="gone">
 
             <ImageView
@@ -140,8 +142,8 @@
             android:id="@+id/fl_add_cripto_coin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clickable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:visibility="gone">
 
             <LinearLayout
@@ -160,7 +162,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Cripto coin?"
+                    android:text="No Cripto ETHCoin?"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="16dp" />
 

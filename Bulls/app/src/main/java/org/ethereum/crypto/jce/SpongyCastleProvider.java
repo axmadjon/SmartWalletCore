@@ -31,8 +31,8 @@ public final class SpongyCastleProvider {
         
         INSTANCE = (p != null) ? p : new BouncyCastleProvider();
             
-        INSTANCE.put("MessageDigest.ETH-KECCAK-256", "org.org.ethereum.crypto.cryptohash.Keccak256");
-        INSTANCE.put("MessageDigest.ETH-KECCAK-512", "org.org.ethereum.crypto.cryptohash.Keccak512");
+        INSTANCE.put("MessageDigest.ETH-KECCAK-256", "org.ethereum.crypto.cryptohash.Keccak256");
+        INSTANCE.put("MessageDigest.ETH-KECCAK-512", "org.ethereum.crypto.cryptohash.Keccak512");
     }
   }
 
