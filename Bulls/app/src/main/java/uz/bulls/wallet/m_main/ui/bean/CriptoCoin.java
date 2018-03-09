@@ -12,8 +12,8 @@ import uz.greenwhite.lib.uzum.UzumWriter;
 
 public class CriptoCoin {
 
-    public static final String C_ETH = "ethereum";
-    public static final String C_ETC = "ethereum-classic";
+    public static final String C_ETH = "org/ethereum";
+    public static final String C_ETC = "org.ethereum-classic";
 
     public final String id;
 
