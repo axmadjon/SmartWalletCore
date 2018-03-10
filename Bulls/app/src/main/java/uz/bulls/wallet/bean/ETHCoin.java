@@ -2,7 +2,6 @@ package uz.bulls.wallet.bean;
 
 import org.json.JSONObject;
 
-import uz.greenwhite.lib.collection.MyMapper;
 import uz.greenwhite.lib.uzum.UzumAdapter;
 import uz.greenwhite.lib.uzum.UzumReader;
 import uz.greenwhite.lib.uzum.UzumWriter;
@@ -22,13 +21,6 @@ public class ETHCoin extends CoinCore {
         this.publicKey = publicKey;
         this.note = note;
     }
-
-    public static final MyMapper<ETHCoin, String> KEY_ADAPTER = new MyMapper<ETHCoin, String>() {
-        @Override
-        public String apply(ETHCoin ETHCoin) {
-            return ETHCoin.id;
-        }
-    };
 
     public static final UzumAdapter<ETHCoin> UZUM_ADAPTER = new UzumAdapter<ETHCoin>() {
         @Override

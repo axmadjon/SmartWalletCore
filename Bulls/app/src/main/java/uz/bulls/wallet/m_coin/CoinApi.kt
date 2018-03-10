@@ -22,9 +22,11 @@ fun getCoinInfos(coinId: String): MyArray<CoinCore> {
 }
 
 fun saveCoinInfo(coinCore: CoinCore) {
-    val coinInfos = getCoinInfos(coinCore.id).append(coinCore)
+    val coinInfos = getCoinInfos(coinCore.id).filter { it.publicAddress != coinCore.publicAddress }
+    val finalCoinInfos = MyArray.from(coinInfos).append(coinCore)
+
     val uzumAdapter = CoinCore.getCoinAdapter<CoinCore>(coinCore.id).toArray()
-    getPref().save("${C_COIN_INFOS}:${coinCore.id}", Uzum.toJson(coinInfos, uzumAdapter))
+    getPref().save("${C_COIN_INFOS}:${coinCore.id}", Uzum.toJson(finalCoinInfos, uzumAdapter))
 }
 
 fun clearCoinInfo(coinId: String) {

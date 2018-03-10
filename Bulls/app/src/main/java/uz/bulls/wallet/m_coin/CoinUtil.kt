@@ -17,8 +17,8 @@ fun generateNewCriptoCoinAddress(coinId: String): CoinCore {
         if (CoinCore.ETHEREUM_CLASSIC == coinId) {
             coinName = "Ethereum Classic"
         }
-        return ETHCoin(coinId, coinName, privateKey, publicKey, publicAddress, "",
-                System.currentTimeMillis().toString())
+        val timeMillis = System.currentTimeMillis().toString()
+        return ETHCoin(coinId, coinName, privateKey, publicKey, publicAddress, timeMillis, "")
     }
     throw RuntimeException("coinId not support: $coinId")
 }

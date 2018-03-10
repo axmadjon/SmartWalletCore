@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import uz.bulls.wallet.R
+import uz.bulls.wallet.bean.CoinCore
+import uz.bulls.wallet.m_main.bean.CriptoCoin
 import uz.bulls.wallet.m_main.getMyCoins
 import uz.bulls.wallet.m_main.saveMyCoins
-import uz.bulls.wallet.m_main.ui.bean.CriptoCoin
-import uz.bulls.wallet.m_setting.ui.openSettingFragment
 import uz.greenwhite.lib.mold.Mold
 import uz.greenwhite.lib.mold.MoldContentFragment
 import uz.greenwhite.lib.view_setup.UI
@@ -37,8 +37,7 @@ class MainCoinFragment : MoldContentFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        addMenu(R.drawable.ic_settings_black_24dp, "Setting", { openSettingFragment(activity) })
+        Mold.setTitle(activity, "Dashboard")
 
         val button = Mold.makeFloatAction(activity, R.drawable.ic_add_black_24dp)
         button.setOnClickListener { addTransactionOrCreateCoin() }
@@ -69,7 +68,7 @@ class MainCoinFragment : MoldContentFragment() {
         val dialog = UI.bottomSheet().title("Select coins")
         val myCoins = getMyCoins()
         CriptoCoin.ALL_SUPPORT_COINS.filter { !myCoins.contains(it.id, CriptoCoin.KEY_ADAPTER) }.forEach {
-            dialog.option(ContextCompat.getDrawable(activity, it.iconResId), it.name, {
+            dialog.option(ContextCompat.getDrawable(activity, CoinCore.getCoinIconResId(it.id)), CoinCore.getCoinName(it.id), {
                 saveMyCoins(myCoins.append(it))
                 replaceInstanceCoinMarketCapFragment(activity)
             })

@@ -8,6 +8,10 @@ repositories {
     jcenter()
     mavenCentral()
 
+    maven {
+        url "https://raw.github.com/embarkmobile/zxing-android-minimal/mvn-repo/maven-repository/"
+    }
+
     flatDir {
         dirs 'libs'
     }
@@ -42,9 +46,15 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:11.8.0"
 
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     compile "com.madgag.spongycastle:core:$scastle_version" // for SHA3 and SECP256K1
     compile "com.madgag.spongycastle:prov:$scastle_version" // for SHA3 and SECP256K1
 
     compile(name: 'gwslib-release', ext: 'aar')
+
+    // Zxing libraries
+    compile 'com.embarkmobile:zxing-android-minimal:2.0.0@aar'
+    compile 'com.embarkmobile:zxing-android-integration:2.0.0@aar'
+    compile 'com.google.zxing:core:3.2.1'
 }

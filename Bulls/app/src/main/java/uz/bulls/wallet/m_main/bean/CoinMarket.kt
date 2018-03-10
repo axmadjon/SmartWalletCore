@@ -1,8 +1,4 @@
-package uz.bulls.wallet.m_main.ui.bean
-
-import uz.greenwhite.lib.uzum.UzumAdapter
-import uz.greenwhite.lib.uzum.UzumReader
-import uz.greenwhite.lib.uzum.UzumWriter
+package uz.bulls.wallet.m_main.bean
 
 
 class CoinMarket(val id: String,

@@ -5,12 +5,14 @@ import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import uz.bulls.wallet.R
+import uz.bulls.wallet.bean.CoinCore
+import uz.bulls.wallet.m_coin.arg.ArgCoin
 import uz.bulls.wallet.m_coin.clearCoinInfo
 import uz.bulls.wallet.m_coin.ui.openCoinFragment
+import uz.bulls.wallet.m_main.bean.CriptoCoin
 import uz.bulls.wallet.m_main.getMyCoins
+import uz.bulls.wallet.m_main.job.CoinMarketJob
 import uz.bulls.wallet.m_main.saveMyCoins
-import uz.bulls.wallet.m_main.ui.bean.CriptoCoin
-import uz.bulls.wallet.m_main.ui.job.CoinMarketJob
 import uz.greenwhite.lib.collection.MyArray
 import uz.greenwhite.lib.job.JobMate
 import uz.greenwhite.lib.util.NumberUtil
@@ -50,9 +52,9 @@ class MainAdapter(val activity: Activity,
 
             reloadView(vs, item)
 
-            vs.imageView(R.id.coin_logo).setImageResource(item.iconResId)
+            vs.imageView(R.id.coin_logo).setImageResource(CoinCore.getCoinIconResId(item.id))
 
-            vs.id<View>(R.id.fl_cripto_coin).setOnClickListener { openCoinFragment(activity, item.id) }
+            vs.id<View>(R.id.fl_cripto_coin).setOnClickListener { openCoinFragment(activity, ArgCoin(item.id)) }
             vs.id<View>(R.id.fl_cripto_coin).setOnLongClickListener { clickLong(it, item);true }
         } else {
             vs.id<View>(R.id.fl_cripto_coin).visibility = View.GONE
@@ -78,7 +80,7 @@ class MainAdapter(val activity: Activity,
         UI.popup()
                 .option(R.string.open, { })
                 .option(R.string.remove, {
-                    val message = "Вы точно хотите удалить «${criptoCoin.name}» валюту и все ее адреса.\n" +
+                    val message = "Вы точно хотите удалить «${CoinCore.getCoinName(criptoCoin.id)}» валюту и все ее адреса?\n" +
                             "Перед тем удалять валюту рекомендую вам резервировать копию"
                     UI.confirm(activity, "Warning!!!", message, {
                         saveMyCoins(MyArray.from(getMyCoins().filter { item -> item.id != criptoCoin.id }))

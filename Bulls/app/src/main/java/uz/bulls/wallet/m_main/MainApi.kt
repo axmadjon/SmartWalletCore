@@ -3,7 +3,7 @@ package uz.bulls.wallet.m_main
 import android.text.TextUtils
 import uz.bulls.wallet.BullsApp
 import uz.bulls.wallet.datasource.Pref
-import uz.bulls.wallet.m_main.ui.bean.CriptoCoin
+import uz.bulls.wallet.m_main.bean.CriptoCoin
 import uz.greenwhite.lib.collection.MyArray
 import uz.greenwhite.lib.util.Util
 import uz.greenwhite.lib.uzum.Uzum

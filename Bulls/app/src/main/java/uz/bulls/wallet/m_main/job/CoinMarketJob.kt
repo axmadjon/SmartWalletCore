@@ -1,4 +1,4 @@
-package uz.bulls.wallet.m_main.ui.job
+package uz.bulls.wallet.m_main.job
 
 import android.text.TextUtils
 import okhttp3.OkHttpClient
@@ -9,7 +9,7 @@ import uz.bulls.wallet.m_main.getCacheTime
 import uz.bulls.wallet.m_main.getCoinMarketCache
 import uz.bulls.wallet.m_main.saveCacheTime
 import uz.bulls.wallet.m_main.saveCoinMarketCache
-import uz.bulls.wallet.m_main.ui.bean.CoinMarket
+import uz.bulls.wallet.m_main.bean.CoinMarket
 import uz.greenwhite.lib.collection.MyArray
 import uz.greenwhite.lib.job.ShortJob
 
