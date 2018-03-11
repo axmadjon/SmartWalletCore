@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import uz.bulls.wallet.R
 import uz.bulls.wallet.bean.CoinCore
 import uz.bulls.wallet.m_coin.arg.ArgCoin
-import uz.bulls.wallet.m_coin.clearCoinInfo
+import uz.bulls.wallet.m_coin.clearCoinCore
 import uz.bulls.wallet.m_coin.ui.openCoinFragment
 import uz.bulls.wallet.m_main.bean.CriptoCoin
 import uz.bulls.wallet.m_main.getMyCoins
@@ -76,15 +76,15 @@ class MainAdapter(val activity: Activity,
         }
     }
 
-    private fun clickLong(view: View, criptoCoin: CriptoCoin) {
+    private fun clickLong(view: View, coin: CriptoCoin) {
         UI.popup()
-                .option(R.string.open, { })
+                .option(R.string.open, { openCoinFragment(activity, ArgCoin(coin.id)) })
                 .option(R.string.remove, {
-                    val message = "Вы точно хотите удалить «${CoinCore.getCoinName(criptoCoin.id)}» валюту и все ее адреса?\n" +
+                    val message = "Вы точно хотите удалить «${CoinCore.getCoinName(coin.id)}» валюту и все ее адреса?\n" +
                             "Перед тем удалять валюту рекомендую вам резервировать копию"
                     UI.confirm(activity, "Warning!!!", message, {
-                        saveMyCoins(MyArray.from(getMyCoins().filter { item -> item.id != criptoCoin.id }))
-                        clearCoinInfo(criptoCoin.id)
+                        saveMyCoins(MyArray.from(getMyCoins().filter { item -> item.id != coin.id }))
+                        clearCoinCore(coin.id)
                         activity.recreate()
                     })
                 })

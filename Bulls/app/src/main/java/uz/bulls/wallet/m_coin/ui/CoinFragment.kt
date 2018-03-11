@@ -8,14 +8,16 @@ import uz.bulls.wallet.R
 import uz.bulls.wallet.bean.CoinCore
 import uz.bulls.wallet.m_coin.arg.ArgCoin
 import uz.bulls.wallet.m_coin.arg.ArgCoinInfo
-import uz.bulls.wallet.m_coin.generateNewCriptoCoinAddress
-import uz.bulls.wallet.m_coin.getCoinInfos
-import uz.bulls.wallet.m_coin.saveCoinInfo
+import uz.bulls.wallet.m_coin.getCoinBalance
+import uz.bulls.wallet.m_coin.getCoinCore
+import uz.bulls.wallet.m_coin.job.CoinBalanceJob
 import uz.greenwhite.lib.mold.Mold
 import uz.greenwhite.lib.mold.MoldContentSwipeRecyclerFragment
 import uz.greenwhite.lib.mold.RecyclerAdapter
 import uz.greenwhite.lib.util.CharSequenceUtil
+import uz.greenwhite.lib.util.NumberUtil
 import uz.greenwhite.lib.view_setup.ViewSetup
+import java.math.BigDecimal
 
 
 fun openCoinFragment(activity: Activity, arg: ArgCoin) {
@@ -31,17 +33,15 @@ class CoinFragment : MoldContentSwipeRecyclerFragment<CoinCore>() {
         super.onActivityCreated(savedInstanceState)
         Mold.setTitle(activity, CoinCore.getCoinName(getArgCoin().coinId))
 
-        Mold.makeFloatAction(activity, R.drawable.ic_add_black_24dp).setOnClickListener { generateNewAddress() }
+        Mold.makeFloatAction(activity, R.drawable.ic_add_black_24dp).setOnClickListener {
+            openCoinInfoDialog(activity, ArgCoinInfo(getArgCoin(), ""))
+        }
 
         onRefresh()
     }
 
     override fun hasItemDivider(): Boolean = false
 
-    private fun generateNewAddress() {
-        saveCoinInfo(generateNewCriptoCoinAddress(getArgCoin().coinId))
-        onRefresh()
-    }
 
     override fun reloadContent() {
         onRefresh()
@@ -49,7 +49,7 @@ class CoinFragment : MoldContentSwipeRecyclerFragment<CoinCore>() {
 
     override fun onRefresh() {
         startRefresh()
-        listItems = getCoinInfos(getArgCoin().coinId).sort({ l, r -> CharSequenceUtil.compareToIgnoreCase(l.timeMillis, r.timeMillis) })
+        listItems = getCoinCore(getArgCoin().coinId).sort({ l, r -> CharSequenceUtil.compareToIgnoreCase(l.timeMillis, r.timeMillis) })
         Handler().postDelayed({ stopRefresh() }, 100)
     }
 
@@ -68,5 +68,19 @@ class CoinFragment : MoldContentSwipeRecyclerFragment<CoinCore>() {
                 .resize(50, 50)
                 .centerCrop()
                 .into(vs.imageView(R.id.iv_qr_code))
+
+        if (item.id == CoinCore.ETHEREUM_CLASSIC || item.id == CoinCore.ETHEREUM) {
+
+            val cacheBalance = NumberUtil.formatMoney(getCoinBalance(item.id, item.publicAddress))
+            vs.textView(R.id.tv_coin_address_balance).text = "Balance: $cacheBalance"
+
+            jobMate.execute(CoinBalanceJob(item.id, item.publicAddress))
+                    .done({
+                        val balance = NumberUtil.formatMoney(BigDecimal(it))
+                        vs.textView(R.id.tv_coin_address_balance).text = "Balance: $balance"
+                    })
+        } else {
+            vs.textView(R.id.tv_coin_address_balance).text = "Balance not support"
+        }
     }
 }
