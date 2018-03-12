@@ -40,10 +40,6 @@ public class CoinCore {
         this.note = note;
     }
 
-    public boolean isId(String id) {
-        return Util.nvl(id).equals(this.id);
-    }
-
     public static final MyMapper<CoinCore, String> KEY_ADAPTER = new MyMapper<CoinCore, String>() {
         @Override
         public String apply(CoinCore coinCore) {

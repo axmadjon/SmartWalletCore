@@ -11,6 +11,7 @@ import uz.greenwhite.lib.uzum.Uzum
 private val K_CASHE = "coin_market_cap:cache"
 private val K_CACHE_TIME = "coin_market_cap:cache:time"
 private val K_MY_COIN = "coin_market_cap:my_coin"
+private val K_MAIN_ADDRESS = "main_coin:main_address"
 
 fun getPref() = Pref(BullsApp.getInstance(), "bulls:main")
 
@@ -50,3 +51,13 @@ fun getMyCoins(): MyArray<CriptoCoin> {
 fun saveMyCoins(items: MyArray<CriptoCoin>) {
     getPref().save(K_MY_COIN, Uzum.toJson(items, CriptoCoin.UZUM_ADAPTER.toArray()))
 }
+
+//##################################################################################################
+
+fun getMainCoinAddress(coinId: String) = Util.nvl(getPref().load("$K_MAIN_ADDRESS:$coinId"))
+
+fun saveMainCoinAddress(coinId: String, publicAddress: String) {
+    getPref().save("$K_MAIN_ADDRESS:$coinId", publicAddress)
+}
+
+//##################################################################################################

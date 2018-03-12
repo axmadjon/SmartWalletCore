@@ -56,6 +56,7 @@ class MainAdapter(val activity: Activity,
 
             vs.id<View>(R.id.fl_cripto_coin).setOnClickListener { openCoinFragment(activity, ArgCoin(item.id)) }
             vs.id<View>(R.id.fl_cripto_coin).setOnLongClickListener { clickLong(it, item);true }
+            vs.id<View>(R.id.miv_barcode).setOnClickListener { openMainCoinAddressFragment(activity, ArgCoin(item.id)) }
         } else {
             vs.id<View>(R.id.fl_cripto_coin).visibility = View.GONE
             vs.id<View>(R.id.fl_add_cripto_coin).visibility = View.VISIBLE

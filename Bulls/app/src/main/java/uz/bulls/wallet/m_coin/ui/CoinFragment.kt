@@ -27,7 +27,7 @@ fun openCoinFragment(activity: Activity, arg: ArgCoin) {
 
 class CoinFragment : MoldContentSwipeRecyclerFragment<CoinCore>() {
 
-    fun getArgCoin() = Mold.parcelableArgument<ArgCoin>(this, ArgCoin.UZUM_ADAPTER)!!
+    private fun getArgCoin() = Mold.parcelableArgument<ArgCoin>(this, ArgCoin.UZUM_ADAPTER)!!
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
