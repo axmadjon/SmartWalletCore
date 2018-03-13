@@ -1,6 +1,7 @@
 package uz.bulls.wallet.m_main.ui
 
 import android.app.Activity
+import android.support.v4.app.FragmentActivity
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
@@ -54,8 +55,8 @@ class MainAdapter(val activity: Activity,
 
             vs.imageView(R.id.coin_logo).setImageResource(CoinCore.getCoinIconResId(item.id))
 
-            vs.id<View>(R.id.fl_cripto_coin).setOnClickListener { openCoinFragment(activity, ArgCoin(item.id)) }
-            vs.id<View>(R.id.fl_cripto_coin).setOnLongClickListener { clickLong(it, item);true }
+            vs.id<View>(R.id.fl_cripto_coin).setOnClickListener { onItemClick(item) }
+            vs.id<View>(R.id.fl_cripto_coin).setOnLongClickListener { onLongClick(it, item);true }
             vs.id<View>(R.id.miv_barcode).setOnClickListener { openMainCoinAddressFragment(activity, ArgCoin(item.id)) }
         } else {
             vs.id<View>(R.id.fl_cripto_coin).visibility = View.GONE
@@ -77,7 +78,11 @@ class MainAdapter(val activity: Activity,
         }
     }
 
-    private fun clickLong(view: View, coin: CriptoCoin) {
+    private fun onItemClick(criptoCoin: CriptoCoin) {
+        showCoinAddressBottomSheetFragment(activity as FragmentActivity, ArgCoin(criptoCoin.id))
+    }
+
+    private fun onLongClick(view: View, coin: CriptoCoin) {
         UI.popup()
                 .option(R.string.open, { openCoinFragment(activity, ArgCoin(coin.id)) })
                 .option(R.string.remove, {

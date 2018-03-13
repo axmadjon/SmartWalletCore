@@ -77,7 +77,7 @@ class CoinFragment : MoldContentSwipeRecyclerFragment<CoinCore>() {
                 .show(holder.vsItem.view)
     }
 
-    override fun adapterGetLayoutResource(): Int = R.layout.coin_row
+    override fun adapterGetLayoutResource(): Int = R.layout.coin_address_dialog_row
 
     override fun adapterPopulate(vs: ViewSetup, item: CoinCore) {
         vs.textView(R.id.tv_coin_name).text = item.name
