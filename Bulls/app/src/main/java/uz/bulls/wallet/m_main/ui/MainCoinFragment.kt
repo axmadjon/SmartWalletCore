@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import uz.bulls.wallet.R
 import uz.bulls.wallet.bean.CoinCore
+import uz.bulls.wallet.m_coin.generateNewCriptoCoinAddress
+import uz.bulls.wallet.m_coin.saveCoinCore
 import uz.bulls.wallet.m_main.bean.CriptoCoin
 import uz.bulls.wallet.m_main.getMyCoins
 import uz.bulls.wallet.m_main.saveMyCoins
@@ -70,6 +72,7 @@ class MainCoinFragment : MoldContentFragment() {
         CriptoCoin.ALL_SUPPORT_COINS.filter { !myCoins.contains(it.id, CriptoCoin.KEY_ADAPTER) }.forEach {
             dialog.option(ContextCompat.getDrawable(activity, CoinCore.getCoinIconResId(it.id)), CoinCore.getCoinName(it.id), {
                 saveMyCoins(myCoins.append(it))
+                saveCoinCore(generateNewCriptoCoinAddress(it.id), mainCoin = true)
                 replaceInstanceCoinMarketCapFragment(activity)
             })
         }

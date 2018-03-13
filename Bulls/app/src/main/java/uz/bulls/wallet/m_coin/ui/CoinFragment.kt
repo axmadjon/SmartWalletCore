@@ -11,11 +11,14 @@ import uz.bulls.wallet.m_coin.arg.ArgCoinInfo
 import uz.bulls.wallet.m_coin.getCoinBalance
 import uz.bulls.wallet.m_coin.getCoinCore
 import uz.bulls.wallet.m_coin.job.CoinBalanceJob
+import uz.bulls.wallet.m_coin.removeCoinCoreAddress
 import uz.greenwhite.lib.mold.Mold
 import uz.greenwhite.lib.mold.MoldContentSwipeRecyclerFragment
 import uz.greenwhite.lib.mold.RecyclerAdapter
 import uz.greenwhite.lib.util.CharSequenceUtil
 import uz.greenwhite.lib.util.NumberUtil
+import uz.greenwhite.lib.util.Util
+import uz.greenwhite.lib.view_setup.UI
 import uz.greenwhite.lib.view_setup.ViewSetup
 import java.math.BigDecimal
 
@@ -37,6 +40,8 @@ class CoinFragment : MoldContentSwipeRecyclerFragment<CoinCore>() {
             openCoinInfoDialog(activity, ArgCoinInfo(getArgCoin(), ""))
         }
 
+        setHasLongClick(true)
+
         onRefresh()
     }
 
@@ -53,8 +58,23 @@ class CoinFragment : MoldContentSwipeRecyclerFragment<CoinCore>() {
         Handler().postDelayed({ stopRefresh() }, 100)
     }
 
+    private fun removeCoinAddress(item: CoinCore) {
+        UI.dialog().title(R.string.warning)
+                .message("Do you want to remove ${item.name} address?")
+                .negative(R.string.close, Util.NOOP)
+                .positive(R.string.remove, { removeCoinCoreAddress(item); onRefresh() })
+                .show(activity)
+    }
+
     override fun onItemClick(holder: RecyclerAdapter.ViewHolder, item: CoinCore) {
         openCoinInfoDialog(activity, ArgCoinInfo(getArgCoin(), item.publicAddress))
+    }
+
+    override fun onItemLongClick(holder: RecyclerAdapter.ViewHolder, item: CoinCore) {
+        UI.popup()
+                .option(R.string.open, { onItemClick(holder, item) })
+                .option(R.string.remove, { removeCoinAddress(item) })
+                .show(holder.vsItem.view)
     }
 
     override fun adapterGetLayoutResource(): Int = R.layout.coin_row

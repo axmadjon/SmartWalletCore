@@ -4,6 +4,7 @@ import android.text.TextUtils
 import uz.bulls.wallet.BullsApp
 import uz.bulls.wallet.bean.CoinCore
 import uz.bulls.wallet.datasource.Pref
+import uz.bulls.wallet.m_main.saveMainCoinAddress
 import uz.greenwhite.lib.collection.MyArray
 import uz.greenwhite.lib.util.Util
 import uz.greenwhite.lib.uzum.Uzum
@@ -26,12 +27,24 @@ fun getCoinCore(coinId: String): MyArray<CoinCore> {
     return Uzum.toValue(coinInfoJson, uzumAdapter)
 }
 
-fun saveCoinCore(coinCore: CoinCore) {
+fun saveCoinCore(coinCore: CoinCore, mainCoin: Boolean = false) {
     val coinInfos = getCoinCore(coinCore.id).filter { it.publicAddress != coinCore.publicAddress }
     val finalCoinInfos = MyArray.from(coinInfos).append(coinCore)
 
     val uzumAdapter = CoinCore.getCoinAdapter<CoinCore>(coinCore.id).toArray()
     getPref().save("${C_COIN_INFOS}:${coinCore.id}", Uzum.toJson(finalCoinInfos, uzumAdapter))
+
+    if (mainCoin) {
+        saveMainCoinAddress(coinCore.id, coinCore.publicAddress)
+    }
+}
+
+fun removeCoinCoreAddress(coinCore: CoinCore) {
+    val filterCoinCore = getCoinCore(coinCore.id)
+            .filter({ it.publicAddress != coinCore.publicAddress })
+
+    val uzumAdapter = CoinCore.getCoinAdapter<CoinCore>(coinCore.id).toArray()
+    getPref().save("${C_COIN_INFOS}:${coinCore.id}", Uzum.toJson(MyArray.from(filterCoinCore), uzumAdapter))
 }
 
 fun clearCoinCore(coinId: String) {
