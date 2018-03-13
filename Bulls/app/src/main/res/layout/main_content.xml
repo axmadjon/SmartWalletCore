@@ -10,8 +10,8 @@
         android:layout_height="200dp"
         android:layout_centerInParent="true"
         android:clipToPadding="false"
-        android:paddingLeft="100dp"
-        android:paddingRight="100dp" />
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
 
     <View
         android:layout_width="match_parent"
@@ -32,18 +32,29 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="?actionBarSize">
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_assignment" />
+                android:src="@drawable/not_transaction" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Список транзакций пуст"
                 android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:padding="10dp"
+                android:text="ADD TRANSACTION"
+                android:textColor="@color/green"
+                android:textSize="18dp" />
         </LinearLayout>
 
     </FrameLayout>
