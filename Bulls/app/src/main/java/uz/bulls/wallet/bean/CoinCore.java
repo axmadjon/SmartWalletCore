@@ -102,6 +102,19 @@ public class CoinCore {
         }
     }
 
+    @DrawableRes
+    @NonNull
+    public static int getCoinIconSmallResId(String coinId) {
+        switch (coinId) {
+            case CoinCore.ETHEREUM_CLASSIC:
+                return R.mipmap.ic_ethereum_classic;
+            case CoinCore.ETHEREUM:
+                return R.mipmap.ic_ethereum;
+            default:
+                throw AppError.Required();
+        }
+    }
+
     @NonNull
     public static CharSequence getCoinName(String coinId) {
         switch (coinId) {

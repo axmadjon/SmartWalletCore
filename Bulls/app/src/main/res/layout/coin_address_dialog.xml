@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/sv_coin_address"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_toolbar"
+        style="@style/GWS.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/GWS.ToolbarTheme"
+        app:titleTextColor="@color/white" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/ll_content"
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/sv_coin_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </android.support.v4.widget.NestedScrollView>
+            android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </android.support.v4.widget.NestedScrollView>
 
-        <Button
-            android:id="@+id/btn_create_new_address"
-            style="@style/GWS.GreenButton"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_new_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add new Address"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add_white_24dp"
+            app:backgroundTint="@color/green"
+            app:fabSize="normal" />
+    </FrameLayout>
 
 </LinearLayout>
