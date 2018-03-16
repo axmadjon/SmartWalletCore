@@ -1,5 +1,4 @@
-package uz.bulls.wallet.m_coin
-
+package uz.bulls.wallet.m_main
 
 import org.ethereum.crypto.ECKey
 import org.spongycastle.util.encoders.Hex

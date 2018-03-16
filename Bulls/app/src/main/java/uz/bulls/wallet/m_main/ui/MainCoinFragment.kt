@@ -9,11 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import uz.bulls.wallet.R
 import uz.bulls.wallet.bean.CoinCore
-import uz.bulls.wallet.m_coin.generateNewCriptoCoinAddress
-import uz.bulls.wallet.m_coin.saveCoinCore
+import uz.bulls.wallet.m_main.generateNewCriptoCoinAddress
+import uz.bulls.wallet.m_main.saveCoinCore
 import uz.bulls.wallet.m_main.bean.CriptoCoin
 import uz.bulls.wallet.m_main.getMyCoins
 import uz.bulls.wallet.m_main.saveMyCoins
+import uz.bulls.wallet.m_main.ui.adapter.MainAdapter
 import uz.greenwhite.lib.mold.Mold
 import uz.greenwhite.lib.mold.MoldContentFragment
 import uz.greenwhite.lib.view_setup.UI

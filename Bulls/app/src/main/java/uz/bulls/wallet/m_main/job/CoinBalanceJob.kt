@@ -1,4 +1,4 @@
-package uz.bulls.wallet.m_coin.job
+package uz.bulls.wallet.m_main.job
 
 import android.text.TextUtils
 import okhttp3.OkHttpClient
@@ -6,7 +6,7 @@ import okhttp3.Request
 import org.json.JSONObject
 import uz.bulls.wallet.bean.CoinCore
 import uz.bulls.wallet.common.compareTo
-import uz.bulls.wallet.m_coin.saveCoinBalance
+import uz.bulls.wallet.m_main.saveCoinBalance
 import uz.greenwhite.lib.error.AppError
 import uz.greenwhite.lib.job.ShortJob
 import java.math.BigDecimal
@@ -24,7 +24,7 @@ class CoinBalanceJob(private val coinId: String,
         if (coinId == CoinCore.ETHEREUM_CLASSIC) {
             builder.url("https://api.gastracker.io/v1/addr/${publicAddress}")
         } else if (coinId == CoinCore.ETHEREUM) {
-            builder.url("https://api.etherscan.io/api?module=account&action=balancemulti&address=$publicAddress&tag=latest&apikey=$ETHEREUM_API")
+            builder.url("https://api.etherscan.io/api?module=account&action=balancemulti&address=$publicAddress&tag=latest&apikey=${ETHEREUM_API}")
 //          eth  1000000000000000000
         }
 

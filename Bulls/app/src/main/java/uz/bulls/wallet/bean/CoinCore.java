@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import uz.bulls.wallet.R;
 import uz.greenwhite.lib.collection.MyMapper;
 import uz.greenwhite.lib.error.AppError;
-import uz.greenwhite.lib.util.Util;
 import uz.greenwhite.lib.uzum.UzumAdapter;
 import uz.greenwhite.lib.uzum.UzumReader;
 import uz.greenwhite.lib.uzum.UzumWriter;
@@ -38,6 +37,10 @@ public class CoinCore {
         this.publicAddress = publicAddress;
         this.timeMillis = timeMillis;
         this.note = note;
+    }
+
+    public CoinCore change(String name, String note) {
+        return new CoinCore(this.id, name, this.privateKey, this.publicAddress, this.timeMillis, note);
     }
 
     public static final MyMapper<CoinCore, String> KEY_ADAPTER = new MyMapper<CoinCore, String>() {
@@ -103,13 +106,12 @@ public class CoinCore {
     }
 
     @DrawableRes
-    @NonNull
     public static int getCoinIconSmallResId(String coinId) {
         switch (coinId) {
             case CoinCore.ETHEREUM_CLASSIC:
-                return R.mipmap.ic_ethereum_classic;
+                return R.drawable.ic_ethereum_classic_small;
             case CoinCore.ETHEREUM:
-                return R.mipmap.ic_ethereum;
+                return R.drawable.ic_ethereum_small;
             default:
                 throw AppError.Required();
         }

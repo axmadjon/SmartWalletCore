@@ -1,4 +1,4 @@
-package uz.bulls.wallet.m_main.ui
+package uz.bulls.wallet.m_main.ui.adapter
 
 import android.app.Activity
 import android.support.v4.app.FragmentActivity
@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import uz.bulls.wallet.R
 import uz.bulls.wallet.bean.CoinCore
-import uz.bulls.wallet.m_coin.arg.ArgCoin
-import uz.bulls.wallet.m_coin.clearCoinCore
-import uz.bulls.wallet.m_coin.ui.openCoinFragment
+import uz.bulls.wallet.m_main.arg.ArgCoin
+import uz.bulls.wallet.m_main.arg.ArgCoinAddress
 import uz.bulls.wallet.m_main.bean.CriptoCoin
+import uz.bulls.wallet.m_main.clearCoinCore
+import uz.bulls.wallet.m_main.getMainCoinAddress
 import uz.bulls.wallet.m_main.getMyCoins
 import uz.bulls.wallet.m_main.job.CoinMarketJob
 import uz.bulls.wallet.m_main.saveMyCoins
+import uz.bulls.wallet.m_main.ui.openCoinAddressFragment
+import uz.bulls.wallet.m_main.ui.showCoinAddressBottomSheetFragment
 import uz.greenwhite.lib.collection.MyArray
 import uz.greenwhite.lib.job.JobMate
 import uz.greenwhite.lib.util.NumberUtil
@@ -57,12 +60,14 @@ class MainAdapter(val activity: Activity,
 
             vs.id<View>(R.id.fl_cripto_coin).setOnClickListener { onItemClick(item) }
             vs.id<View>(R.id.fl_cripto_coin).setOnLongClickListener { onLongClick(it, item);true }
-            vs.id<View>(R.id.miv_barcode).setOnClickListener { openMainCoinAddressFragment(activity, ArgCoin(item.id)) }
+            vs.id<View>(R.id.miv_barcode).setOnClickListener {
+                val argument = ArgCoinAddress(item.id, getMainCoinAddress(item.id))
+                openCoinAddressFragment(activity, argument)
+            }
         } else {
             vs.id<View>(R.id.fl_cripto_coin).visibility = View.GONE
             vs.id<View>(R.id.fl_add_cripto_coin).visibility = View.VISIBLE
             vs.id<View>(R.id.fl_add_cripto_coin).setOnClickListener { newCoinFun() }
-
         }
 
         container?.addView(vs.view)
@@ -84,7 +89,7 @@ class MainAdapter(val activity: Activity,
 
     private fun onLongClick(view: View, coin: CriptoCoin) {
         UI.popup()
-                .option(R.string.open, { openCoinFragment(activity, ArgCoin(coin.id)) })
+                .option(R.string.open, { onItemClick(coin) })
                 .option(R.string.remove, {
                     val message = "Вы точно хотите удалить «${CoinCore.getCoinName(coin.id)}» валюту и все ее адреса?\n" +
                             "Перед тем удалять валюту рекомендую вам резервировать копию"

@@ -7,6 +7,7 @@ import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.Toolbar
+import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,17 +15,17 @@ import android.widget.LinearLayout
 import com.squareup.picasso.Picasso
 import uz.bulls.wallet.R
 import uz.bulls.wallet.bean.CoinCore
-import uz.bulls.wallet.m_coin.arg.ArgCoin
-import uz.bulls.wallet.m_coin.arg.ArgCoinInfo
-import uz.bulls.wallet.m_coin.getCoinBalance
-import uz.bulls.wallet.m_coin.getCoinCore
-import uz.bulls.wallet.m_coin.job.CoinBalanceJob
-import uz.bulls.wallet.m_coin.ui.openCoinInfoDialog
+import uz.bulls.wallet.m_main.*
+import uz.bulls.wallet.m_main.arg.ArgCoin
+import uz.bulls.wallet.m_main.arg.ArgCoinAddress
+import uz.bulls.wallet.m_main.job.CoinBalanceJob
 import uz.greenwhite.lib.job.JobMate
 import uz.greenwhite.lib.mold.Mold
 import uz.greenwhite.lib.mold.MoldDialogFragment
 import uz.greenwhite.lib.util.CharSequenceUtil
 import uz.greenwhite.lib.util.NumberUtil
+import uz.greenwhite.lib.util.Util
+import uz.greenwhite.lib.view_setup.UI
 import uz.greenwhite.lib.view_setup.ViewSetup
 import java.math.BigDecimal
 
@@ -39,10 +40,11 @@ class CoinAddressBottomSheetFragment : MoldDialogFragment() {
 
     private val jobMate: JobMate = JobMate()
     private var dialog: BottomSheetDialog? = null
+    private var vsRoot: ViewSetup? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val vsRoot = ViewSetup(activity, R.layout.coin_address_dialog)
-        val toolbar = vsRoot.id<Toolbar>(R.id.tb_toolbar)
+        this.vsRoot = ViewSetup(activity, R.layout.coin_address_dialog)
+        val toolbar = vsRoot!!.id<Toolbar>(R.id.tb_toolbar)
 
         val arg = getArgCoin()
 
@@ -53,17 +55,20 @@ class CoinAddressBottomSheetFragment : MoldDialogFragment() {
         toolbar.setNavigationOnClickListener { dismissAllowingStateLoss() }
 
         dialog = BottomSheetDialog(activity, theme)
-        dialog!!.setContentView(vsRoot.view)
+        dialog!!.setContentView(vsRoot!!.view)
 
-        dialog!!.setOnShowListener { prepareToolbarMenu(vsRoot) }
+        dialog!!.setOnShowListener { prepareToolbarMenu() }
 
         val vg = dialog!!.findViewById(android.support.design.R.id.design_bottom_sheet)
         val bottomSheet = BottomSheetBehavior.from(vg)
-        bottomSheet.setBottomSheetCallback(BottomSheetListener({ prepareToolbarMenu(vsRoot) }))
-
-        reloadContent(vsRoot)
+        bottomSheet.setBottomSheetCallback(BottomSheetListener({ prepareToolbarMenu() }))
 
         return dialog!!
+    }
+
+    override fun onStart() {
+        super.onStart()
+        reloadContent()
     }
 
     override fun onStop() {
@@ -71,18 +76,18 @@ class CoinAddressBottomSheetFragment : MoldDialogFragment() {
         jobMate.stopListening()
     }
 
-    private fun prepareToolbarMenu(vsRoot: ViewSetup) {
-        val toolbar = vsRoot.id<Toolbar>(R.id.tb_toolbar)
+    private fun prepareToolbarMenu() {
+        val toolbar = vsRoot!!.id<Toolbar>(R.id.tb_toolbar)
 
         toolbar.menu.clear()
         val bottomSheet = BottomSheetBehavior.from(dialog!!.findViewById(android.support.design.R.id.design_bottom_sheet))
         val state = bottomSheet.state
 
-        val button = vsRoot.id<FloatingActionButton>(R.id.fab_new_address)
+        val button = vsRoot!!.id<FloatingActionButton>(R.id.fab_new_address)
 
         button.setOnClickListener { generateNewAddress() }
 
-        val vg = vsRoot.viewGroup<LinearLayout>(R.id.ll_content)
+        val vg = vsRoot!!.viewGroup<LinearLayout>(R.id.ll_content)
 
         if (state == BottomSheetBehavior.STATE_HIDDEN) {
             dismissAllowingStateLoss()
@@ -106,23 +111,71 @@ class CoinAddressBottomSheetFragment : MoldDialogFragment() {
         }
     }
 
-    private fun generateNewAddress() {
-        openCoinInfoDialog(activity, ArgCoinInfo(getArgCoin(), ""))
+    private fun generateNewAddress(publicAddress: String = "") {
+        var coinAddress = Util.nvl(publicAddress)
+        if (coinAddress.isEmpty()) {
+            val arg = getArgCoin()
+            val newCoin = generateNewCriptoCoinAddress(arg.coinId)
+            saveCoinCore(newCoin)
+            coinAddress = newCoin.publicAddress
+
+        }
+        openCoinAddressFragment(activity, ArgCoinAddress(getArgCoin(), coinAddress))
     }
 
-    private fun reloadContent(vsRoot: ViewSetup) {
-        val vg = vsRoot.viewGroup<LinearLayout>(R.id.ll_content)
+    private fun removeCoinAddress(coinCore: CoinCore) {
+        var message = "Вы точно хотите удалить «${coinCore.name}» адрес?\n" +
+                "После удалений вы не сможите востановить его!" +
+                "<i>(Если у вас есть копия то вы можите не волнуяс удалить даную адрес)</i>"
+
+        val mainAddress = getMainCoinAddress(coinCore.id) == coinCore.publicAddress
+        if (mainAddress) {
+            message += "<br/><br/><b>Этот адрес выбра как главный!</b>"
+        }
+        UI.confirm(activity, "Warning!!!", Html.fromHtml(message), {
+            removeCoinCoreAddress(coinCore)
+            if (mainAddress) {
+                saveMainCoinAddress(coinCore.id, "")
+            }
+            reloadContent()
+        })
+    }
+
+    private fun reloadContent() {
+        val vg = vsRoot!!.viewGroup<LinearLayout>(R.id.ll_content)
         vg.removeAllViews()
 
-        getCoinCore(getArgCoin().coinId)
-                .sort({ l, r -> CharSequenceUtil.compareToIgnoreCase(l.timeMillis, r.timeMillis) })
-                .forEach({
-                    val vs = ViewSetup(activity, R.layout.coin_address_dialog_row)
-                    adapterPopulate(vs, it)
+        val allCoins = getCoinCore(getArgCoin().coinId)
 
-                    vg.addView(vs.view)
-                })
+        vsRoot!!.id<View>(R.id.ll_address_content).visibility = if (allCoins.isEmpty) View.GONE else View.VISIBLE
+        vsRoot!!.id<View>(R.id.ll_oops).visibility = if (allCoins.isEmpty) View.VISIBLE else View.GONE
 
+        if (allCoins.isEmpty) {
+            vsRoot!!.id<View>(R.id.ll_oops).setOnClickListener { generateNewAddress() }
+
+        } else {
+            allCoins.sort({ l, r -> CharSequenceUtil.compareToIgnoreCase(l.timeMillis, r.timeMillis) })
+                    .forEach({ item ->
+                        val vs = ViewSetup(activity, R.layout.coin_address_dialog_row)
+                        adapterPopulate(vs, item)
+                        vs.view.setOnClickListener { generateNewAddress(item.publicAddress) }
+                        vs.view.setOnLongClickListener {
+                            UI.popup()
+                                    .option(R.string.open, {
+                                        generateNewAddress(item.publicAddress)
+                                    })
+                                    .option(R.string.edit, {
+                                        openCoinEditAddressFragment(activity, ArgCoinAddress(getArgCoin(), item.publicAddress))
+                                    })
+                                    .option(R.string.remove, {
+                                        removeCoinAddress(item)
+                                    })
+                                    .show(vs.view)
+                            true
+                        }
+                        vg.addView(vs.view)
+                    })
+        }
     }
 
     private fun adapterPopulate(vs: ViewSetup, item: CoinCore) {
